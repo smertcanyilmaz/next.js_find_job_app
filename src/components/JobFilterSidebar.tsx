@@ -20,6 +20,9 @@ const filterJobs = async (formData: FormData) => {
     ...(location && { location }),
     ...(remote && { remote: "true" }),
   });
+  console.log(typeof formData, "formdata");
+
+  //   console.log("values", values);
 
   redirect(`/?${searchParams.toString()}`);
 };
