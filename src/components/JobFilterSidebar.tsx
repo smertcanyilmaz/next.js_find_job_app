@@ -4,7 +4,7 @@ import { Label } from "./ui/label";
 import Select from "./ui/select";
 import prisma from "@/lib/prisma";
 import { Button } from "./ui/button";
-import { jobFilterSchema } from "@/lib/validation";
+import { JobFilterValues, jobFilterSchema } from "@/lib/validation";
 import { redirect } from "next/navigation";
 
 const filterJobs = async (formData: FormData) => {
@@ -24,9 +24,11 @@ const filterJobs = async (formData: FormData) => {
   redirect(`/?${searchParams.toString()}`);
 };
 
-type Props = {};
+type Props = {
+  defaultValues: JobFilterValues;
+};
 
-const JobFilterSidebar = async (props: Props) => {
+const JobFilterSidebar = async ({ defaultValues }: Props) => {
   const distinctLocations = await prisma.job
     .findMany({
       where: { approved: true },
@@ -43,11 +45,20 @@ const JobFilterSidebar = async (props: Props) => {
         <div className="space-y-4">
           <div className="flex flex-col gap-4">
             <Label htmlFor="q">Search</Label>
-            <Input id="q" name="q" placeholder="Title, company, etc." />
+            <Input
+              id="q"
+              name="q"
+              placeholder="Title, company, etc."
+              defaultValue={defaultValues.q}
+            />
           </div>
           <div className="flex flex-col gap-2">
             <Label htmlFor="type">Type</Label>
-            <Select id="type" name="type" defaultValue="">
+            <Select
+              id="type"
+              name="type"
+              defaultValue={defaultValues.type || ""}
+            >
               <option value="">All types</option>
               {jobTypes.map((type) => (
                 <option key={type} value={type}>
@@ -61,7 +72,11 @@ const JobFilterSidebar = async (props: Props) => {
             <Select id="location" name="location">
               <option value="">All location</option>
               {distinctLocations.map((location) => (
-                <option key={location} value={location}>
+                <option
+                  key={location}
+                  value={location}
+                  defaultValue={defaultValues.location || ""}
+                >
                   {location}
                 </option>
               ))}
@@ -73,6 +88,7 @@ const JobFilterSidebar = async (props: Props) => {
               name="remote"
               type="checkbox"
               className="scale-125 accent-black"
+              defaultChecked={defaultValues.remote}
             />
             <Label htmlFor="remote">Remote jobs</Label>
           </div>
