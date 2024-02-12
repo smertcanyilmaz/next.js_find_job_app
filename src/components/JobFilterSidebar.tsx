@@ -10,7 +10,7 @@ import { redirect } from "next/navigation";
 const filterJobs = async (formData: FormData) => {
   "use server";
 
-  const values = Object.fromEntries(formData.entries());
+  const values = Object.fromEntries(formData.entries()); //form değerlerini js objesine dönüştürür
 
   const { q, type, location, remote } = jobFilterSchema.parse(values);
 
@@ -20,9 +20,6 @@ const filterJobs = async (formData: FormData) => {
     ...(location && { location }),
     ...(remote && { remote: "true" }),
   });
-  console.log(typeof formData, "formdata");
-
-  //   console.log("values", values);
 
   redirect(`/?${searchParams.toString()}`);
 };
@@ -41,7 +38,7 @@ const JobFilterSidebar = async (props: Props) => {
         locations.map(({ location }) => location).filter(Boolean) as string[],
     );
   return (
-    <aside className="md:w-[260px] p-4 sticky top-0 h-fit bg-background border rounded-lg">
+    <aside className="sticky top-0 h-fit rounded-lg border bg-background p-4 md:w-[260px]">
       <form action={filterJobs}>
         <div className="space-y-4">
           <div className="flex flex-col gap-4">
@@ -51,7 +48,7 @@ const JobFilterSidebar = async (props: Props) => {
           <div className="flex flex-col gap-2">
             <Label htmlFor="type">Type</Label>
             <Select id="type" name="type" defaultValue="">
-              <option value="">All location</option>
+              <option value="">All types</option>
               {jobTypes.map((type) => (
                 <option key={type} value={type}>
                   {type}
