@@ -39,9 +39,11 @@ const JobFilterSidebar = async ({ defaultValues }: Props) => {
       (locations) =>
         locations.map(({ location }) => location).filter(Boolean) as string[],
     );
+
+  //form etiketi içine yazılan key'in sebebi anasayfaya dönüldüğünde filtreleme seçeneklerini resetlemek için
   return (
     <aside className="sticky top-0 h-fit rounded-lg border bg-background p-4 md:w-[260px]">
-      <form action={filterJobs}>
+      <form action={filterJobs} key={JSON.stringify(defaultValues)}>
         <div className="space-y-4">
           <div className="flex flex-col gap-4">
             <Label htmlFor="q">Search</Label>
