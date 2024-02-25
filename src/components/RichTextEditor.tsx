@@ -1,9 +1,15 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import dynamic from "next/dynamic";
 import React, { forwardRef } from "react";
-import { Editor, EditorProps } from "react-draft-wysiwyg";
+import { EditorProps } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+
+const Editor = dynamic(
+  () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
+  { ssr: false },
+);
 
 export default forwardRef<Object, EditorProps>(
   function RichTextEditor(props, ref) {
@@ -16,6 +22,13 @@ export default forwardRef<Object, EditorProps>(
         toolbar={{
           options: ["inline", "list", "link", "history"],
           inline: { options: ["bold", "italic", "underline"] },
+        }}
+        editorRef={(r) => {
+          if (typeof ref === "function") {
+            ref(r);
+          } else if (ref) {
+            ref.current = r;
+          }
         }}
         {...props}
       />

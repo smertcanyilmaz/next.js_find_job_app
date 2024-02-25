@@ -204,7 +204,6 @@ export default function NewJobForm({}: Props) {
                     </FormItem>
                   )}
                 />
-
                 <FormField
                   control={control}
                   name="applicationUrl"
