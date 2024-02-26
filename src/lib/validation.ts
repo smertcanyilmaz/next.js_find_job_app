@@ -11,7 +11,7 @@ const companyLogoSchema = z
     "Must be an image file",
   )
   .refine((file) => {
-    !file || file.size < 1024 * 1024 * 2; /*2mb*/
+    return !file || file.size < 1024 * 1024 * 2;
   }, "File must be less than 2MB");
 
 const applicationSchema = z
