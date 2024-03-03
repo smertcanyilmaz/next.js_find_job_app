@@ -5,6 +5,7 @@ import { currentUser } from "@clerk/nextjs";
 import { del } from "@vercel/blob";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import prisma from "@/lib/prisma";
 
 type FormState = { error?: string } | undefined;
 
