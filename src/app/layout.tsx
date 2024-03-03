@@ -21,9 +21,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} min-w-[350px]`}>
+      <body
+        className={`${inter.className} flex min-h-screen min-w-[350px] flex-col`}
+      >
         <Navbar />
-        {children}
+        <main className="grow">{children}</main>
         <Footer />
       </body>
     </html>
